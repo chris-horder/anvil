@@ -34,7 +34,7 @@ class Storage
 
   create_stream: (filename, stream, cb) ->
     headers =
-      "x-amx-acl": "private"
+      "x-amz-acl": "private"
     @knox.putStream stream, filename, headers, (err, res) ->
       cb null
 
