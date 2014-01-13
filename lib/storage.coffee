@@ -33,7 +33,9 @@ class Storage
     put.end data
 
   create_stream: (filename, stream, cb) ->
-    @knox.putStream stream, filename, (err, res) ->
+    headers =
+      "x-amx-acl": "private"
+    @knox.putStream stream, filename, headers, (err, res) ->
       cb null
 
   verify_hash: (filename, hash, cb) ->

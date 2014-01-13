@@ -17,7 +17,7 @@ program.knox = (program) ->
 program.command("put <local> <remote>")
   .action (local, remote) ->
     headers =
-      "x-amz-acl": "public-read"
+      "x-amx-acl": "public-read"
     program.knox(program).putStream fs.createReadStream(local), remote, headers, (err) ->
       console.log if err then "error: #{err}" else "success"
 

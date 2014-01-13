@@ -16,6 +16,7 @@ class Manifest
     options  =
       "Content-Length": manifest.length,
       "Content-Type":  "application/json"
+      "x-amz-acl": "private"
     @storage.create "/manifest/#{@id}.json", manifest, options, (err) =>
       cb err, @manifest_url()
 
