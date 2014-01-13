@@ -5,8 +5,8 @@ class Builder
   constructor: () ->
     @id         = uuid.v4()
     @request_id = @id
-    @spawner    = require("spawner").init()
-    @storage    = require("storage").init()
+    @spawner    = require("./spawner").init()
+    @storage    = require("./storage").init()
 
   build: (source, options, cb) ->
     ext = if options.type is "deb" then "deb" else "tgz"
@@ -26,6 +26,7 @@ class Builder
           SLUG_PUT_URL:  slug_put_url
           SLUG_TYPE:     ext
           SOURCE_URL:    source
+        console.log("Looking for api " + options.cache)
         env[key] = val for key, val of JSON.parse(options.env || "{}")
         builder  = @spawner.spawn("bin/compile-wrapper $SOURCE_URL", env:env)
         cb builder, this
@@ -38,7 +39,7 @@ class Builder
       env:       req.body.env
       keepalive: req.body.keepalive
       type:      req.body.type
-    require("builder").init().build req.body.source, options, (build, builder) ->
+    require("./builder").init().build req.body.source, options, (build, builder) ->
       res.writeHead 200
         "Content-Type":      "text/plain"
         "Transfer-Encoding": "chunked"

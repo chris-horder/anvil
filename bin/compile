@@ -103,6 +103,7 @@ if [ "$CACHE_URL" != "" ]; then
   if [ -d $cache_dir ]; then
     echo -n "Fetching cache... "
     cache=$(mktemp -t cache_XXXXX)
+    echo -n $CACHE_URL
     curl -f -s $CACHE_URL -o $cache
     cd $cache_dir
     tar xzf $cache >/dev/null 2>&1 && echo "done" || echo "empty"
