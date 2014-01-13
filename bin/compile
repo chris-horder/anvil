@@ -115,7 +115,7 @@ fi
 profiled_scan_old=$(scan_profiled)
 
 # compile
-echo "Compiling app..."
+echo "Compiling app... in HOME : $HOME"
 cd $compile_dir
 
 $buildpack/bin/compile $compile_dir $cache_dir 2>&1 | reformat

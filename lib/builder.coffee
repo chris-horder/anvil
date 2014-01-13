@@ -19,6 +19,7 @@ class Builder
           EXIT_PUT_URL:  exit_put_url
           NODE_ENV:      process.env.NODE_ENV
           NODE_PATH:     process.env.NODE_PATH
+          HOME:          process.env.HOME
           PATH:          process.env.PATH
           REQUEST_ID:    @request_id
           SLUG_ID:       @id
