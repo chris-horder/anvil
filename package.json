@@ -1,23 +1,22 @@
 {
-  "name":    "anvil",
+  "name": "anvil",
   "version": "0.0.1",
-
   "dependencies": {
-    "async":         "0.1.x",
+    "async": "0.1.x",
     "coffee-script": "1.2.x",
-    "commander":     "0.6.x",
-    "express":       "2.5.x",
-    "knox":          "0.0.9",
-    "mkdirp":        "0.3.x",
-    "node-uuid":     "1.3.x",
-    "nodemon":       "0.6.18",
-    "restler":       "2.0.x",
-    "stylus":        "0.26.x",
-    "temp":          "0.4.x"
+    "commander": "0.6.x",
+    "express": "2.5.x",
+    "knox": "0.0.9",
+    "mkdirp": "0.3.x",
+    "node-uuid": "1.3.x",
+    "nodemon": "0.6.18",
+    "restler": "2.0.x",
+    "stylus": "0.26.x",
+    "temp": "0.4.x",
+    "aws-sdk": "~2.0.0-rc8"
   },
-
   "engines": {
     "node": "0.6.x",
-    "npm":  ">= 1.1.0 <=1.1.46"
+    "npm": ">= 1.1.0 <=1.1.46"
   }
 }

@@ -5,6 +5,7 @@ express  = require("express")
 fs       = require("fs")
 log      = require("./lib/logger")
 manifest = require("./lib/manifest")
+timeout = require("./lib/timeout")
 storage  = require("./lib/storage").init()
 util     = require("util")
 
@@ -24,6 +25,8 @@ app = express.createServer(
     buffer: false
     format: "subject=\"http\" method=\":method\" url=\":url\" status=\":status\" elapsed=\":response-time\" from=\":remote-addr\" agent=\":user-agent\""
   express.bodyParser())
+
+app.use(timeout(600000))
 
 app.get "/", (req, res) ->
   res.send "ok"
