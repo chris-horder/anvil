@@ -6,6 +6,12 @@ set -o pipefail
 
 compile_dir=$1
 
+if [ -e "/etc/profile.d/rvm.sh" ]; then
+    source /etc/profile.d/rvm.sh
+else
+    source ~/.rvm/scripts/'rvm'
+fi
+
 # override built-in shell echo
 echo() {
   /bin/echo "$1" "$2"
@@ -117,7 +123,7 @@ profiled_scan_old=$(scan_profiled)
 # compile
 echo "Compiling app... in HOME : $HOME"
 cd $compile_dir
-
+echo "$buildpack/bin/compile $compile_dir $cache_dir"
 $buildpack/bin/compile $compile_dir $cache_dir 2>&1 | reformat
 
 # move existing .profile to .profile.d/app.sh

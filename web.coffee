@@ -46,8 +46,9 @@ app.post "/build", (req, res) ->
 
 app.get "/cache/:id.tgz", (req, res) ->
   storage.get "/cache/#{req.params.id}.tgz", (err, get) ->
-    get.on "data", (chunk) -> res.write chunk
-    get.on "end",          -> res.end()
+    get.on "httpData", (chunk) -> res.write chunk
+    get.on "httpDone",          -> res.end()
+    get.send()
 
 app.put "/cache/:id.tgz", (req, res) ->
   storage.create_stream "/cache/#{req.params.id}.tgz", fs.createReadStream(req.files.data.path), (err) ->
@@ -55,16 +56,17 @@ app.put "/cache/:id.tgz", (req, res) ->
 
 app.get "/exit/:id", (req, res) ->
   storage.get "/exit/#{req.params.id}", (err, get) ->
-    get.on "data", (chunk) -> res.write chunk
-    get.on "end",          -> res.end()
+    get.on "httpData", (chunk) -> res.write chunk
+    get.on "httpDone",          -> res.end()
+    get.send()
 
 app.get "/file/:hash", (req, res) ->
   log "api.file.get", hash:req.params.hash, (logger) ->
     storage.get "/hash/#{req.params.hash}", (err, get) ->
-      res.writeHead get.statusCode,
-        "Content-Length": get.headers["content-length"]
-      get.on "data", (chunk) -> res.write chunk
-      get.on "end",          -> logger.finish(); res.end()
+      res.writeHead 200
+      get.on "httpData", (chunk) -> res.write chunk
+      get.on "httpDone",          -> logger.finish(); res.end()
+      get.send()
 
 app.post "/file/:hash", (req, res) ->
   log "api.file.post", hash:req.params.hash, (logger) ->
@@ -97,29 +99,31 @@ app.post "/manifest/diff", (req, res) ->
 
 app.get "/manifest/:id.json", (req, res) ->
   storage.get "/manifest/#{req.params.id}.json", (err, get) =>
-    get.on "data", (chunk) -> res.write chunk
-    get.on "end",          -> res.end()
+    get.on "httpData", (chunk) -> res.write chunk
+    get.on "httpDone",          -> res.end()
+    get.send()
 
 app.get "/slugs/:id.deb", (req, res) ->
   storage.get "/slug/#{req.params.id}.deb", (err, get) ->
     res.writeHead get.statusCode,
-      "Content-Length": get.headers["content-length"]
-    get.on "data", (chunk) -> res.write chunk
-    get.on "end",          -> res.end()
+      "Content-Length": get.ContentLength
+    get.on "httpData", (chunk) -> res.write chunk
+    get.on "httpDone",          -> res.end()
+    get.send()
 
 app.get "/slugs/:id.img", (req, res) ->
   storage.get "/slug/#{req.params.id}.img", (err, get) ->
-    res.writeHead get.statusCode,
-      "Content-Length": get.headers["content-length"]
-    get.on "data", (chunk) -> res.write chunk
-    get.on "end",          -> res.end()
+    res.writeHead get.statusCode
+    get.on "httpData", (chunk) -> res.write chunk
+    get.on "httpDone",          -> res.end()
 
 app.get "/slugs/:id.tgz", (req, res) ->
   storage.get "/slug/#{req.params.id}.tgz", (err, get) ->
-    res.writeHead get.statusCode,
-      "Content-Length": get.headers["content-length"]
-    get.on "data", (chunk) -> res.write chunk
-    get.on "end",          -> res.end()
+    # res.writeHead get.statusCode
+    res.writeHead 200
+    get.on "httpData", (chunk) -> res.write chunk
+    get.on "httpDone",          -> res.end()
+    get.send()
 
 port = process.env.PORT || 5000
 
